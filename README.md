@@ -48,16 +48,3 @@ Por ejemplo, para 5 minutos:
 ```python
 START_TIME_SECONDS = 5 * 60
 ```
-
-## Subir a GitHub
-
-Cuando quieras publicarlo:
-
-```bash
-git init
-git add .
-git commit -m "Initial chess game"
-git branch -M main
-git remote add origin https://github.com/TU-USUARIO/chess-royale.git
-git push -u origin main
-```
