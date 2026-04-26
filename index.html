@@ -13,14 +13,14 @@
     <div class="shell">
         <header class="topbar">
             <div>
-                <p class="eyebrow">Chess Royale</p>
-                <h1>Chess Game by fabdylan</h1>
+                <p class="eyebrow">By fabdylan</p>
+                <h1>Chess Game</h1>
             </div>
             <div class="topbar-actions">
                 <div class="time-control" role="group" aria-label="Tiempo de partida">
-                    <button class="time-button is-active" data-time="10" type="button">10 min</button>
-                    <button class="time-button" data-time="5" type="button">5 min</button>
-                    <button class="time-button" data-time="3" type="button">3 min</button>
+                    <button class="time-button is-active" data-time="10" type="button" aria-pressed="true">10 min</button>
+                    <button class="time-button" data-time="5" type="button" aria-pressed="false">5 min</button>
+                    <button class="time-button" data-time="3" type="button" aria-pressed="false">3 min</button>
                 </div>
                 <button id="restartButton" class="primary-button" type="button">Reiniciar</button>
                 <button id="flipButton" class="secondary-button" type="button">Girar tablero</button>
@@ -74,6 +74,6 @@
         </main>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>

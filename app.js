@@ -776,9 +776,11 @@ function wireControls() {
         button.addEventListener("click", () => {
             unlockAudio();
             const minutes = Number(button.dataset.time);
+            if (!minutes) return;
             game.setTimeControl(minutes);
             elements.timeButtons.forEach((candidate) => {
                 candidate.classList.toggle("is-active", candidate === button);
+                candidate.setAttribute("aria-pressed", candidate === button ? "true" : "false");
             });
             render();
             flushPendingSound();
