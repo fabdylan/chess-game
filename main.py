@@ -520,8 +520,11 @@ def load_sounds():
         ensure_sound_files()
     for pattern in ("*.wav", "*.mp3", "*.ogg"):
         for path in SOUND_DIR.glob(pattern):
-            loaded[path.stem] = pygame.mixer.Sound(str(path))
-            loaded[path.stem].set_volume(0.65 if path.suffix.lower() in (".mp3", ".ogg") else 0.45)
+            try:
+                loaded[path.stem] = pygame.mixer.Sound(str(path))
+                loaded[path.stem].set_volume(0.65 if path.suffix.lower() in (".mp3", ".ogg") else 0.45)
+            except pygame.error:
+                print(f"No se pudo cargar el sonido: {path.name}")
     return loaded
 
 
@@ -588,7 +591,7 @@ def load_piece_images():
             if not path.exists():
                 missing.append(path.name)
                 continue
-            image = pygame.image.load(path).convert_alpha()
+            image = pygame.image.load(str(path)).convert_alpha()
             images[key] = pygame.transform.smoothscale(image, (SQ - 14, SQ - 14))
     if missing:
         raise FileNotFoundError("Faltan imagenes en assets/pieces: " + ", ".join(missing))
@@ -731,7 +734,6 @@ async def main():
     sounds = load_sounds() if pygame.mixer.get_init() else {}
     game = Game()
     game.reset()
-    play_sound(sounds, "game-start")
     running = True
     while running:
         dt = clock.tick(FPS) / 1000
