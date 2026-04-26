@@ -8,8 +8,8 @@ from dataclasses import dataclass, field
 import pygame
 
 
-WIDTH, HEIGHT = 1040, 760
-BOARD_SIZE = 720
+WIDTH, HEIGHT = 1040, 720
+BOARD_SIZE = 680
 SQ = BOARD_SIZE // 8
 BOARD_LEFT = 28
 BOARD_TOP = 20
@@ -534,6 +534,31 @@ def play_sound(sounds, name):
         sound.play()
 
 
+def draw_startup_message(screen, message):
+    screen.fill((25, 27, 32))
+    font = pygame.font.SysFont("Arial", 26, bold=True)
+    small = pygame.font.SysFont("Arial", 18)
+    draw_text(screen, font, "Chess Royale", (36, 34), TEXT)
+    draw_text(screen, small, message, (36, 78), MUTED)
+    pygame.display.flip()
+
+
+async def show_startup_error(screen, error):
+    font = pygame.font.SysFont("Arial", 24, bold=True)
+    small = pygame.font.SysFont("Arial", 17)
+    lines = [str(error)[i:i + 72] for i in range(0, len(str(error)), 72)] or ["Error desconocido"]
+    while True:
+        screen.fill((25, 27, 32))
+        draw_text(screen, font, "No se pudo iniciar Chess Royale", (36, 34), (255, 195, 96))
+        y = 82
+        for line in lines[:12]:
+            draw_text(screen, small, line, (36, y), TEXT)
+            y += 26
+        draw_text(screen, small, "Manda captura de este mensaje y lo arreglo.", (36, y + 18), MUTED)
+        pygame.display.flip()
+        await asyncio.sleep(0)
+
+
 def draw_board(screen, game, fonts):
     for vr in range(8):
         for vc in range(8):
@@ -728,10 +753,15 @@ async def main():
         pass
     pygame.display.set_caption("Chess Royale")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    draw_startup_message(screen, "Cargando piezas y sonidos...")
     clock = pygame.time.Clock()
-    fonts = make_fonts()
-    piece_images = load_piece_images()
-    sounds = load_sounds() if pygame.mixer.get_init() else {}
+    try:
+        fonts = make_fonts()
+        piece_images = load_piece_images()
+        sounds = load_sounds() if pygame.mixer.get_init() else {}
+    except Exception as error:
+        await show_startup_error(screen, error)
+        return
     game = Game()
     game.reset()
     running = True
