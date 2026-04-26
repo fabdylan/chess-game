@@ -11,6 +11,7 @@ const PIECE_NAMES = {
 
 class ChessGame {
     constructor() {
+        this.startTimeSeconds = START_TIME_SECONDS;
         this.reset();
     }
 
@@ -35,9 +36,14 @@ class ChessGame {
         this.flipped = false;
         this.status = "Juegan blancas";
         this.pendingSound = "game-start";
-        this.clocks = { w: START_TIME_SECONDS, b: START_TIME_SECONDS };
+        this.clocks = { w: this.startTimeSeconds, b: this.startTimeSeconds };
         this.lowTimeWarning = { w: false, b: false };
         this.hiddenSquare = null;
+    }
+
+    setTimeControl(minutes) {
+        this.startTimeSeconds = minutes * 60;
+        this.reset();
     }
 
     colorOf(piece) {
@@ -448,6 +454,7 @@ const elements = {
     blackCaptures: document.getElementById("blackCaptures"),
     restartButton: document.getElementById("restartButton"),
     flipButton: document.getElementById("flipButton"),
+    timeButtons: Array.from(document.querySelectorAll(".time-button")),
 };
 
 const assets = {
@@ -765,6 +772,19 @@ function tick(now) {
 }
 
 function wireControls() {
+    elements.timeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            unlockAudio();
+            const minutes = Number(button.dataset.time);
+            game.setTimeControl(minutes);
+            elements.timeButtons.forEach((candidate) => {
+                candidate.classList.toggle("is-active", candidate === button);
+            });
+            render();
+            flushPendingSound();
+        });
+    });
+
     elements.restartButton.addEventListener("click", () => {
         unlockAudio();
         game.reset();

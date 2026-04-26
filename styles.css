@@ -71,6 +71,8 @@ body {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 button {
@@ -95,6 +97,28 @@ button:hover {
 .secondary-button {
     background: rgba(24, 33, 45, 0.08);
     color: var(--ink);
+}
+
+.time-control {
+    display: inline-flex;
+    padding: 6px;
+    border-radius: 16px;
+    background: rgba(24, 33, 45, 0.08);
+    gap: 6px;
+}
+
+.time-button {
+    padding: 10px 14px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.time-button.is-active {
+    background: var(--surface-strong);
+    color: var(--ink);
+    box-shadow: 0 8px 20px rgba(24, 33, 45, 0.08);
 }
 
 .layout {
