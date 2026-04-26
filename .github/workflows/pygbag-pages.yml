@@ -33,10 +33,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          find assets/sounds -type f \( -name "*.mp3" -o -name "*.wav" \) -print0 | while IFS= read -r -d '' file; do
-            ffmpeg -y -i "$file" "${file%.*}.ogg"
-            rm "$file"
+          rm -f assets/sounds/*.wav
+          for file in assets/sounds/*.mp3; do
+            [ -e "$file" ] || continue
+            ffmpeg -y -i "$file" "${file%.mp3}.ogg"
           done
+          rm -f assets/sounds/*.mp3
 
       - name: Build web version
         run: python -m pygbag --build --ume_block 0 --title "Chess Royale" .
