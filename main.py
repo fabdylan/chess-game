@@ -515,12 +515,13 @@ def ensure_sound_files():
 
 def load_sounds():
     loaded = {}
-    if not any(SOUND_DIR.glob("*.mp3")):
+    has_audio = any(SOUND_DIR.glob("*.ogg")) or any(SOUND_DIR.glob("*.mp3")) or any(SOUND_DIR.glob("*.wav"))
+    if not has_audio:
         ensure_sound_files()
-    for pattern in ("*.wav", "*.mp3"):
+    for pattern in ("*.wav", "*.mp3", "*.ogg"):
         for path in SOUND_DIR.glob(pattern):
             loaded[path.stem] = pygame.mixer.Sound(str(path))
-            loaded[path.stem].set_volume(0.65 if path.suffix.lower() == ".mp3" else 0.45)
+            loaded[path.stem].set_volume(0.65 if path.suffix.lower() in (".mp3", ".ogg") else 0.45)
     return loaded
 
 

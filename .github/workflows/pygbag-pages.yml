@@ -29,8 +29,17 @@ jobs:
       - name: Install pygbag
         run: python -m pip install --upgrade pygbag
 
+      - name: Convert audio to OGG for web
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          find assets/sounds -type f \( -name "*.mp3" -o -name "*.wav" \) -print0 | while IFS= read -r -d '' file; do
+            ffmpeg -y -i "$file" "${file%.*}.ogg"
+            rm "$file"
+          done
+
       - name: Build web version
-        run: python -m pygbag --build --ume_block 0 --disable-sound-format-error --title "Chess Royale" .
+        run: python -m pygbag --build --ume_block 0 --title "Chess Royale" .
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
