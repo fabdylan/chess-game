@@ -1,4 +1,5 @@
-﻿import math
+﻿import asyncio
+import math
 import struct
 import wave
 from pathlib import Path
@@ -715,7 +716,7 @@ def make_fonts():
     }
 
 
-def main():
+async def main():
     pygame.init()
     try:
         pygame.mixer.init()
@@ -767,11 +768,13 @@ def main():
         draw_pieces(screen, game, fonts, piece_images)
         draw_sidebar(screen, game, fonts, piece_images)
         pygame.display.flip()
+        await asyncio.sleep(0)
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
+
 
 
 

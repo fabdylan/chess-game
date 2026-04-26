@@ -48,3 +48,36 @@ Por ejemplo, para 5 minutos:
 ```python
 START_TIME_SECONDS = 5 * 60
 ```
+
+## Subir a GitHub
+
+Cuando quieras publicarlo:
+
+```bash
+git init
+git add .
+git commit -m "Initial chess game"
+git branch -M main
+git remote add origin https://github.com/TU-USUARIO/chess-royale.git
+git push -u origin main
+```
+
+## Publicar en web con GitHub Pages
+
+Este proyecto incluye un workflow de GitHub Actions en `.github/workflows/pygbag-pages.yml`.
+
+Despues de subir los cambios a GitHub:
+
+1. Entra a tu repositorio en GitHub.
+2. Ve a `Settings > Pages`.
+3. En `Build and deployment`, selecciona `GitHub Actions`.
+4. Ve a la pestana `Actions`.
+5. Abre `Build Pygbag Web Game` y ejecutalo si no corre automaticamente.
+
+Cuando termine, GitHub te dara una URL parecida a:
+
+```text
+https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/
+```
+
+Nota: para la web se usa `pygbag`. Si algun navegador no reproduce los sonidos MP3, convierte los sonidos a OGG y colocalos en `assets/sounds`.
