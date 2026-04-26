@@ -1,4 +1,7 @@
-﻿import asyncio
+﻿try:
+    import pygbag.aio as asyncio
+except ImportError:
+    import asyncio
 import math
 import struct
 import wave
@@ -806,6 +809,8 @@ async def main():
 
 
 asyncio.run(main())
+
+
 
 
 
